@@ -142,6 +142,8 @@ function Board() {
   const [board, setBoard] = useState(initialBoard);
   const [source, setSource] = useState({ piece: null, row: null, col: null });
   const [isWhiteTurn, setIsWhiteTurn] = useState(true);
+  const [whiteout,setWhiteout]=useState([])
+  const [blackout,setBlackout]= useState([])
 
   const handleDragStart = (e, row, col, piece) => {
     const isPlayerPiece = isWhiteTurn ? piece && piece.endsWith('_w') : piece && piece.endsWith('_b');
@@ -155,6 +157,11 @@ function Board() {
     e.preventDefault();
     const targetPiece = e.dataTransfer.getData('piece');
     if (isMoveValid(source.piece, source.row, source.col, row, col, board)) {
+        if(board[row][col]!==null){
+            (board[row][col].slice(-1))==='w'?setWhiteout(prev=>[board[row][col],...prev]):setBlackout(prev=>[board[row][col],...prev])
+            console.log(blackout)
+            console.log(whiteout)
+         }
       setBoard(prevBoard => {
         const newBoard = prevBoard.map(innerRow => [...innerRow]);
         newBoard[row][col] = targetPiece;
@@ -171,6 +178,11 @@ function Board() {
     if (isPlayerPiece) {
       setSource({ piece, row, col });
     } else if (isMoveValid(source.piece, source.row, source.col, row, col, board)) {
+        if(board[row][col]!==null){
+            (board[row][col].slice(-1))==='w'?setWhiteout(prev=>[board[row][col],...prev]):setBlackout(prev=>[board[row][col],...prev])
+            console.log(blackout)
+            console.log(whiteout)
+         }
       setBoard(prevBoard => {
         const newBoard = prevBoard.map(innerRow => [...innerRow]);
         newBoard[row][col] = board[source.row][source.col];
@@ -184,8 +196,17 @@ function Board() {
 
   return (
     <div>
-      <div style={{ marginBottom: '20px', fontSize: '24px' }}>
-        {isWhiteTurn ? "White's Turn" : "Black's Turn"}
+      <div style={{ marginBottom: '2px', fontSize: '24px',padding:5 }}>
+        <p style={{margin:0}}><span>Shashank</span></p>
+        <div style={{height:20}}>
+      {blackout.map((ele, index) => {
+    return <img src={pieceImages[ele]} width='20px' height='20px'/>;
+    
+    
+  })}
+  
+  <span>{blackout.length>0?"+"+blackout.length:""}</span>
+  </div>
       </div>
       <div id="chessboard">
         {board.map((row, rowIndex) => (
@@ -209,8 +230,8 @@ function Board() {
                       style={{ opacity: piece ? 1 : 0 }}
                       src={pieceImages[piece]}
                       alt={piece}
-                      width="70px"
-                      height="70px"
+                      width="60px"
+                      height="60px"
                     />
                   </button>
                 </div>
@@ -218,6 +239,16 @@ function Board() {
             })}
           </div>
         ))}
+      </div>
+      <div style={{ marginBottom: '2px', fontSize: '24px' ,padding:5}}>
+        <p style={{margin:0}}>Mrigank</p>
+        <div style={{height:20}}>
+      {whiteout.map((ele, index) => {
+    return <img src={pieceImages[ele]} width='20px' height='20px'/>;
+  })}
+  
+  <span>{whiteout.length>0?"+"+whiteout.length:""}</span>
+  </div>
       </div>
     </div>
   );
