@@ -1,0 +1,24 @@
+/* Chessboard container */
+#chessboard {
+    display: flex;
+    flex-direction: column;
+    
+    /* grid-template-columns: repeat(8, 1fr); 8 equal columns for the board */
+    /* grid-template-rows: repeat(8, 1fr);    8 equal rows for the board */
+    max-width: 680px;   /* Limit the board's width */
+    max-height: 680px; /* Limit the board's height */
+        /* Ensure the chessboard remains square */
+    margin: 0 auto;     /* Center the board horizontally */
+    border: 3px solid #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#chessboard>.row{
+    display: flex;
+}
+
+
+.empty-square {
+    width: 80px; /* Match the piece size */
+    height: 80px; /* Match the piece size */
+  }
